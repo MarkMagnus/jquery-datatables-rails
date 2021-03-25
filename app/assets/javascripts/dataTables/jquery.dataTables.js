@@ -2094,6 +2094,9 @@
 
 			jqFilter.val( oPreviousSearch.sSearch.replace('"','&quot;') );
 			jqFilter.bind( 'keyup.DT', function(e) {
+				if (e.keyCode != 13 && oSettings.bSearchOnlyOnEnter) {
+					return
+				}
 				/* Update all other filter input elements for the new display */
 				var n = oSettings.aanFeatures.f;
 				var val = this.value==="" ? "" : this.value; // mental IE8 fix :-(
@@ -6471,6 +6474,7 @@
 			_fnMap( oSettings, oInit, "asStripeClasses" );
 			_fnMap( oSettings, oInit, "asStripClasses", "asStripeClasses" ); // legacy
 			_fnMap( oSettings, oInit, "fnServerData" );
+			_fnMap( oSettings, oInit, "bSearchOnlyOnEnter" );
 			_fnMap( oSettings, oInit, "fnFormatNumber" );
 			_fnMap( oSettings, oInit, "sServerMethod" );
 			_fnMap( oSettings, oInit, "aaSorting" );
