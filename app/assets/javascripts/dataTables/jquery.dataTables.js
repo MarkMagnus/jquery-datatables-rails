@@ -2093,13 +2093,13 @@
 			nFilter._DT_Input = jqFilter[0];
 
 			jqFilter.val( oPreviousSearch.sSearch.replace('"','&quot;') );
-			jqFilter.bind( 'keyup.DT', function(e) {
-				if (e.keyCode != 13 && oSettings.bSearchOnlyOnEnter) {
-					return
-				}
+
+			var searchFn = function() {
+				var jqFilter = $('input[type="text"]', nFilter);
+				var val = jqFilter.val().replace(/\s/g, '');
+
 				/* Update all other filter input elements for the new display */
 				var n = oSettings.aanFeatures.f;
-				var val = this.value==="" ? "" : this.value; // mental IE8 fix :-(
 
 				for ( var i=0, iLen=n.length ; i<iLen ; i++ )
 				{
@@ -2119,6 +2119,22 @@
 						"bCaseInsensitive": oPreviousSearch.bCaseInsensitive
 					} );
 				}
+			}
+
+			// search button needs to be add by user, somewhere on the page
+			$('#dtSearchBtn').bind( 'click' , function() { searchFn(); } );
+
+			jqFilter.bind( 'keyup.DT', function(e) {
+				// search button needs to be add by user, somewhere on the page
+				var searchBtn = $('#dtSearchBtn');
+				if( searchBtn.length ) {
+					searchBtn.removeClass("disabled");
+					searchBtn.bind('click', searchFn );
+				}
+				if ( e.keyCode != 13 && oSettings.bSearchOnlyOnEnter ) {
+					return;
+				}
+				searchFn();
 			} );
 
 			jqFilter
@@ -2134,6 +2150,7 @@
 
 			return nFilter;
 		}
+
 
 
 		/**
