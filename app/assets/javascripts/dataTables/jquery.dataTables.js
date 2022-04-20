@@ -2096,7 +2096,9 @@
 
 			var searchFn = function() {
 				var jqFilter = $('input[type="text"]', nFilter);
-				var val = jqFilter.val().replace(/\s/g, '');
+
+        // probably only want to delete leading/trailing whitepace, not all whitespace?
+        var val = jqFilter.val().replace(/^\s*/g, '').replace(/\s*$/g, '');
 
 				/* Update all other filter input elements for the new display */
 				var n = oSettings.aanFeatures.f;
